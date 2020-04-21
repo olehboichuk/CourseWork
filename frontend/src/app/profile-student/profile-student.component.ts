@@ -49,10 +49,11 @@ export class ProfileStudentComponent implements OnInit {
       first_name: this.changeForm.get('first_name').value,
       last_name: this.changeForm.get('last_name').value,
       email: this.changeForm.get('email').value,
+      about: '',
       id: this.user.id
     }
     this.loading = true;
-    this.userService.updateStudent(user).subscribe(res => {
+    this.userService.updateUser(user).subscribe(res => {
       this.ngOnInit();
     }, error => {
       this.loading = false;

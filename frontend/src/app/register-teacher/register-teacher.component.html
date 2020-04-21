@@ -39,7 +39,7 @@
           </mat-select>
         </mat-form-field>
         <mat-form-field class="form__input area">
-          <textarea formControlName="about" class="form__textarea" matInput placeholder="About"></textarea>
+          <textarea formControlName="about" class="form__textarea" maxlength="300" matInput placeholder="About"></textarea>
         </mat-form-field>
         <mat-form-field class="form__input">
           <input matInput formControlName="password" placeholder="Password" [type]="hidePassword ? 'password' : 'text'"

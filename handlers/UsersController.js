@@ -27,18 +27,46 @@ router.route('/user/profile')
         });
     })
     .put((req, res) => {
-    pool.query(sql.change_student, [req.body.first_name,req.body.last_name,req.body.email,req.body.id], (err, result) => {
-        if (err) throw err;
-        console.log(result);
-        res.status(200).json(result.rows)
+        pool.query(sql.change_student, [req.body.first_name, req.body.last_name, req.body.email, req.body.about, req.body.id], (err, result) => {
+            if (err) throw err;
+            if (req.body.languageIds) {
+                pool.query(sql.remove_user_languages, [req.body.id], (err, result) => {
+                    if (err) throw err;
+                    req.body.languageIds.forEach(el => {
+                        pool.query(sql.insert_user_language, [req.body.id, el], (err, result) => {
+                            if (err) throw err;
+                            if (req.body.languageIds[req.body.languageIds.length - 1] === el)
+                                res.status(200).json(result.rows)
+                        });
+                    });
+                });
+            } else {
+                res.status(200).json(result.rows)
+            }
+        });
     });
-});
 
 router.route('/user/role')
     .get((req, res) => {
         let token = req.header('x-access-token');
         let id = jwt.decode(token).id;
         pool.query(sql.find_user_roles, [id], (err, result) => {
+            if (err) throw err;
+            res.status(200).json(result.rows)
+        });
+    });
+router.route('/user/languages')
+    .get((req, res) => {
+        let token = req.header('x-access-token');
+        let id = jwt.decode(token).id;
+        pool.query(sql.find_languages_by_user_id, [id], (err, result) => {
+            if (err) throw err;
+            res.status(200).json(result.rows)
+        });
+    });
+router.route('/languages')
+    .get((req, res) => {
+        pool.query(sql.find_all_languages, (err, result) => {
             if (err) throw err;
             res.status(200).json(result.rows)
         });

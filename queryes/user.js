@@ -16,11 +16,16 @@ let unsubscribe_from_teacher = 'delete from subscriptions where id_teacher=$1 AN
 let find_subscribers_of_teacher_by_his_id = 'select id, login, email, password, first_name, last_name, active, about, rate, num_rates from users inner join subscriptions on users.id=subscriptions.id_user where active=TRUE and subscriptions.id_teacher=$1';
 let simple_subscribers_of_teacher_by_his_id = 'select id, login, first_name, last_name, rate, num_rates from users inner join subscriptions on users.id=subscriptions.id_user where active=TRUE and subscriptions.id_teacher=$1';
 let change_password = 'update users set password = $1 where id = $2';
-let change_student = 'update users set first_name = $1, last_name = $2, email = $3 where id = $4';
+let change_student = 'update users set first_name = $1, last_name = $2, email = $3, about = $4 where id = $5';
 let insert_user_language = 'insert into users_languages (id_user, id_language) values ($1, $2)';
+let find_all_languages = 'SELECT id, name FROM languages';
+let remove_user_languages = 'delete from users_languages where id_user = $1';
+
 
 module.exports = {
     change_student,
+    remove_user_languages,
+    find_all_languages,
     find_all_users,
     find_users,
     find_users_count,
