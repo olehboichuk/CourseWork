@@ -18,18 +18,15 @@ const pool = new Pool({
 });
 
 router.route('/user/profile')
-    .post((req, res) => {
-        console.log(req.body);
-        let token = req.body.token;
+    .get((req, res) => {
+        let token = req.header('x-access-token');
         let id = jwt.decode(token).id;
         pool.query(sql.find_user_with_id, [id], (err, result) => {
             if (err) throw err;
-            console.log(result);
             res.status(200).json(result.rows)
         });
     })
     .put((req, res) => {
-    console.log(req.body);
     pool.query(sql.change_student, [req.body.first_name,req.body.last_name,req.body.email,req.body.id], (err, result) => {
         if (err) throw err;
         console.log(result);
@@ -38,8 +35,8 @@ router.route('/user/profile')
 });
 
 router.route('/user/role')
-    .post((req, res) => {
-        let token = req.body.token;
+    .get((req, res) => {
+        let token = req.header('x-access-token');
         let id = jwt.decode(token).id;
         pool.query(sql.find_user_roles, [id], (err, result) => {
             if (err) throw err;

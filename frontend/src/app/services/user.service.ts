@@ -16,11 +16,11 @@ export class UserService {
   }
 
   getUser() {
-    return this.http.post<UserModel>(this.userURL, {token: localStorage.getItem('token')});
+    return this.http.get<UserModel>(this.userURL);
   }
 
   getUserRole() {
-    return this.http.post(this.userRoleURL, {token: localStorage.getItem('token')});
+    return this.http.get(this.userRoleURL);
   }
 
   updateStudent(user: UserModel) {
