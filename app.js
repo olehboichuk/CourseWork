@@ -23,11 +23,8 @@ app.listen(port, () => {
 });
 
 const client = new Client({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'coursework',
-    password: 'Qwerty123_',
-    port: 5432,
+    connectionString: process.env.DATABASE_URL,
+    ssl: true,
 });
 
 client.connect(function (err) {
