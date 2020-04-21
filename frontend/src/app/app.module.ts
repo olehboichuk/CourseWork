@@ -27,6 +27,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {SidebarComponent} from './sidebar/sidebar.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {AuthInterceptor} from "./services/AuthInterceptor";
+import {RatingModule} from "ng-starrating";
 
 @NgModule({
   declarations: [
@@ -42,23 +43,24 @@ import {AuthInterceptor} from "./services/AuthInterceptor";
     VerificationComponent,
     SidebarComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatMenuModule,
-    MatButtonModule,
-    MatToolbarModule,
-    HttpClientModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatSlideToggleModule,
-    MatIconModule,
-    MatSelectModule,
-    MatProgressSpinnerModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatMenuModule,
+        MatButtonModule,
+        MatToolbarModule,
+        HttpClientModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatCardModule,
+        MatSlideToggleModule,
+        MatIconModule,
+        MatSelectModule,
+        MatProgressSpinnerModule,
+        RatingModule
+    ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,

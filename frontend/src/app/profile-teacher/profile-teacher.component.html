@@ -5,7 +5,12 @@
     <!--    ЗАГАЛЬНА ІНФА ПРО ВИКЛАДАЧА-->
     <form [formGroup]="changeForm">
       <div class="player">
-        <img style="width: 15%;object-fit: scale-down;" src="../../assets/img/teacher.png"/>
+        <div class="photo-rating">
+          <img style="width: 100%;object-fit: scale-down;" src="../../assets/img/teacher.png"/>
+          <star-rating class="user__img--change" [value]="star" checkedcolor="gold" uncheckedcolor="#dddddd" size="40px"
+                       readonly="true"></star-rating>
+          <p class="underrate">{{user.num_rates}} users rate</p>
+        </div>
         <div class="player__info">
           <div class="form__user">
             <div *ngIf="edited" class="player__item">
@@ -68,6 +73,7 @@
             <button *ngIf="!edited" mat-menu-item (click)="onCancel()">Cancel</button>
           </mat-menu>
         </div>
+
       </div>
     </form>
   </div>

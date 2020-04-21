@@ -18,6 +18,7 @@ export class ProfileTeacherComponent implements OnInit {
   private languages: LanguagesList [];
   private langListNames= '';
   private langListIds: number[] = [];
+  private star: number;
 
   constructor(private formBuilder: FormBuilder, private userService: UserService, public route: ActivatedRoute) {
   }
@@ -36,6 +37,7 @@ export class ProfileTeacherComponent implements OnInit {
     });
     this.userService.getUser().subscribe(res => {
       this.user = res[0];
+      this.star = this.user.rate;
       this.userService.getUserLanguages().subscribe(lang => {
         for (let i in lang) {
           this.langListNames += lang[i].name+', ';

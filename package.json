@@ -20,5 +20,9 @@
   },
   "devDependencies": {
     "localstorage-polyfill": "^1.0.1"
+  },
+  "engines": {
+    "node": "12.6.0",
+    "npm": "6.9.0"
   }
 }

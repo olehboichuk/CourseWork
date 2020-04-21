@@ -123,6 +123,30 @@ form {
   margin-bottom: 24px;
 }
 
+.user__img--change {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  margin-top: 7px;
+}
+.underrate {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  color: white;
+  font-size: 10px;
+  letter-spacing: 4px;
+  font-weight: inherit;
+}
+
+.photo-rating{
+  display: flex;
+  width: 15%;
+  flex-direction: column;
+}
+
 .player--text {
   margin-bottom: 5px;
   font-family: $header_font;
