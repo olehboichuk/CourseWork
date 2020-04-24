@@ -33,6 +33,7 @@ export class RegisterStudentComponent implements OnInit {
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
+      login: ['', Validators.required],
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -49,7 +50,7 @@ export class RegisterStudentComponent implements OnInit {
 
   public do_register(): void {
     const user = <UserModel>{
-      login: this.registerForm.get('email').value,
+      login: this.registerForm.get('login').value,
       email: this.registerForm.get('email').value,
       role: ['STUDENT'],
       password: this.registerForm.get('password').value,
@@ -58,6 +59,7 @@ export class RegisterStudentComponent implements OnInit {
       about: '',
     };
     this.loading = true;
+    this.registerForm.controls['login'].disable();
     this.registerForm.controls['first_name'].disable();
     this.registerForm.controls['last_name'].disable();
     this.registerForm.controls['email'].disable();
@@ -77,6 +79,7 @@ export class RegisterStudentComponent implements OnInit {
           console.warn('REGISTRATION DOESN`T WORK');
           console.error(error);
           this.loading = false;
+          this.registerForm.controls['login'].enable();
           this.registerForm.controls['first_name'].enable();
           this.registerForm.controls['last_name'].enable();
           this.registerForm.controls['email'].enable();

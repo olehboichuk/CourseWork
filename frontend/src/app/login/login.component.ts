@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LoginModel} from "../models/login.model";
 import {Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
@@ -39,11 +39,13 @@ export class LoginComponent implements OnInit {
     this.loginForm.controls['password'].disable();
     this.loginService.login(user)
       .subscribe(data => {
-          localStorage.setItem("token", data.token);
-          localStorage.setItem("expires_at", JSON.stringify(data.expiresIn));
-          localStorage.setItem("role", data.role);
-          this.userService.getUserRole().subscribe(res => {
-            console.log(res)
+        console.log(data.active);
+          if (data.active) {
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("expires_at", JSON.stringify(data.expiresIn));
+            localStorage.setItem("role", data.role);
+            this.userService.getUserRole().subscribe(res => {
+              console.log(res)
               this.loginService._logInUser = true;
               if (res[0]['name'] === "TEACHER") {
                 this.router.navigate(['/teacher-profile']);
@@ -52,13 +54,16 @@ export class LoginComponent implements OnInit {
               } else {
                 this.router.navigate(['/student-profile']);
               }
-          });
+            });
+          }else {
+            this.router.navigate(['/']);
+          }
         },
         error => {
-        if(error.error.message)
-          this.error = error.error.message;
-        else
-          this.error = 'No Internet connection'
+          if (error.error.message)
+            this.error = error.error.message;
+          else
+            this.error = 'No Internet connection'
           this.loading = false;
           this.loginForm.controls['login'].enable();
           this.loginForm.controls['password'].enable();

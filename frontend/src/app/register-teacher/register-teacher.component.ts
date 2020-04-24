@@ -63,7 +63,7 @@ export class RegisterTeacherComponent implements OnInit {
       langList[i] = this.registerForm.get('languages').value[i].id;
     }
     const user = <UserModel>{
-      login: this.registerForm.get('email').value,
+      login: this.registerForm.get('login').value,
       email: this.registerForm.get('email').value,
       password: this.registerForm.get('password').value,
       first_name: this.registerForm.get('firstName').value,
@@ -73,6 +73,7 @@ export class RegisterTeacherComponent implements OnInit {
       role: ['STUDENT','TEACHER'],
     };
     this.loading = true;
+    this.registerForm.controls['login'].disable();
     this.registerForm.controls['firstName'].disable();
     this.registerForm.controls['lastName'].disable();
     this.registerForm.controls['email'].disable();
@@ -90,6 +91,7 @@ export class RegisterTeacherComponent implements OnInit {
             this.error = 'No Internet connection'
           console.warn('REGISTRATION DOESN`T WORK');
           this.loading = false;
+          this.registerForm.controls['login'].enable();
           this.registerForm.controls['firstName'].enable();
           this.registerForm.controls['lastName'].enable();
           this.registerForm.controls['email'].enable();

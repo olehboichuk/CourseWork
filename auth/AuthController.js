@@ -34,7 +34,7 @@ router.post('/register', function (req, res) {
         language_ids = language_ids.substring(0, language_ids.length - 1);
     }
     language_ids += '}';
-    pool.query(sql.createUser, [req.body.login, req.body.email, hashedPassword, req.body.firstName, req.body.lastName, req.body.about, roles, language_ids], (err, result) => {
+    pool.query(sql.createUser, [req.body.login, req.body.email, hashedPassword, req.body.first_name, req.body.last_name, req.body.about, roles, language_ids], (err, result) => {
         if (err) return res.status(500).send({message: "There was a problem registering the user."});
         if (!result.rows[0]) return res.status(404).send({message: "User already exists."});
         res.status(200).send({message: "User success added."});
@@ -57,7 +57,7 @@ router.post('/login', function (req, res) {
         }
         tokenCreate.addHours(1);
         tokenCreate = tokenCreate.toLocaleString();
-        res.status(200).send({auth: true, token: token, role: result.rows[0].role, expiresIn: tokenCreate});
+        res.status(200).send({auth: true, token: token, role: result.rows[0].role, expiresIn: tokenCreate, active:result.rows[0].active});
     });
 });
 

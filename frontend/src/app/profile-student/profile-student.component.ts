@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../services/auth.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, ParamMap} from "@angular/router";
 import {UserModel} from "../models/user.model";
 import {UserService} from "../services/user.service";
+import {DialogComponent} from "../dialog/dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-profile-student',
@@ -15,8 +17,10 @@ export class ProfileStudentComponent implements OnInit {
   public loading = true;
   private edited = true;
   private user: UserModel;
+  private isMyProfile: boolean;
+  private userId: string;
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, public route: ActivatedRoute) {
+  constructor(public dialog: MatDialog, private formBuilder: FormBuilder, private userService: UserService, public route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -27,10 +31,24 @@ export class ProfileStudentComponent implements OnInit {
       last_name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
     });
-    this.userService.getUser().subscribe(res => {
-      this.user = res[0];
-      this.loading = false;
-    })
+    this.route.paramMap.subscribe((paramMap: ParamMap) => {
+      if (paramMap.has('userId')) {
+        this.isMyProfile = false;
+        this.userId = paramMap.get('userId');
+
+        this.userService.getUserById(+this.userId).subscribe(res => {
+          this.user = res[0];
+          this.loading = false;
+        })
+      } else {
+        this.isMyProfile = true;
+
+        this.userService.getUser().subscribe(res => {
+          this.user = res[0];
+          this.loading = false;
+        })
+      }
+    });
   }
 
   onEdit() {
@@ -57,6 +75,18 @@ export class ProfileStudentComponent implements OnInit {
       this.ngOnInit();
     }, error => {
       this.loading = false;
+    });
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '320px',
+      height: '200px',
+      data: {id: this.user.id, first_name: this.user.first_name, last_name: this.user.last_name}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
     });
   }
 }

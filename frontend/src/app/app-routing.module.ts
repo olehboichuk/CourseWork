@@ -8,6 +8,9 @@ import {ForgotPasswordComponent} from "./forgot-password/forgot-password.compone
 import {ProfileStudentComponent} from "./profile-student/profile-student.component";
 import {ProfileTeacherComponent} from "./profile-teacher/profile-teacher.component";
 import {VerificationComponent} from "./verification/verification.component";
+import {SubscriptionsComponent} from "./subscriptions/subscriptions.component";
+import {CreateArticleComponent} from "./create-article/create-article.component";
+import {ArticlesComponent} from "./articles/articles.component";
 
 
 const routes: Routes = [
@@ -17,7 +20,12 @@ const routes: Routes = [
   {path: 'register-student', component: RegisterStudentComponent},
   {path: 'forgot-password', component: ForgotPasswordComponent},
   {path: 'teacher-profile', component: ProfileTeacherComponent},
+  {path: 'student-profile/:userId', component: ProfileStudentComponent},
+  {path: 'teacher-profile/:userId', component: ProfileTeacherComponent},
   {path: 'student-profile', component: ProfileStudentComponent},
+  {path: 'subscriptions', component: SubscriptionsComponent},
+  {path: 'create-article', component: CreateArticleComponent},
+  {path: 'article-list', component: ArticlesComponent},
   {path: 'verify', component: VerificationComponent},
 ];
 

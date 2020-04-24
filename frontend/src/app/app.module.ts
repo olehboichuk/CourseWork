@@ -29,6 +29,13 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {AuthInterceptor} from "./services/AuthInterceptor";
 import {RatingModule} from "ng-starrating";
 
+import { DialogComponent } from './dialog/dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import { SubscriptionsComponent } from './subscriptions/subscriptions.component';
+import { CreateArticleComponent } from './create-article/create-article.component';
+import { ArticlesComponent } from './articles/articles.component';
+import {MatChipsModule} from "@angular/material/chips";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +48,11 @@ import {RatingModule} from "ng-starrating";
     ForgotPasswordComponent,
     HomeComponent,
     VerificationComponent,
-    SidebarComponent
+    SidebarComponent,
+    DialogComponent,
+    SubscriptionsComponent,
+    CreateArticleComponent,
+    ArticlesComponent
   ],
     imports: [
         BrowserModule,
@@ -59,14 +70,17 @@ import {RatingModule} from "ng-starrating";
         MatIconModule,
         MatSelectModule,
         MatProgressSpinnerModule,
-        RatingModule
+        RatingModule,
+        MatDialogModule,
+        MatChipsModule
     ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
     multi: true,
   }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents:[DialogComponent]
 })
 export class AppModule {
 }

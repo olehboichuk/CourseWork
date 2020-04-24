@@ -242,7 +242,6 @@ form {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  align-self: flex-end;
   width: 50%;
 
   .form__input {
@@ -368,4 +367,87 @@ mat-expansion-panel {
 }
 .material-icons{
   align-self: center;
+}
+
+
+#toggle {
+  display: none;
+}
+
+
+.button {
+  position: absolute;
+  z-index: 999;
+  width: 28px;
+  height: 28px;
+  background: $header_text_color2;
+  border-radius: 10%;
+  transition: all 0.5s ease-in-out;
+  cursor: pointer;
+  &:before {
+    position: absolute;
+    top: 13px;
+    left: 6px;
+    content: '';
+    width: 16px;
+    height: 2px;
+    background: #ffffff;
+    transform: rotate(90deg);
+  }
+  &:after {
+    position: absolute;
+    top: 13px;
+    left: 6px;
+    content: '';
+    width: 16px;
+    height: 2px;
+    background: #ffffff;
+  }
+}
+
+.wrap{
+  align-self: center;
+  margin-top: 8px;
+}
+
+.check{
+  background: #ff0808;
+  &:before {
+    background: #ffffff;
+  }
+  &:after {
+    background: #ffffff;
+  }
+}
+
+#toggle:checked ~ .nav {
+  opacity: 1;
+  transform: translateY(10%);
+}
+
+#toggle:checked ~ .button {
+  transform: rotate(135deg);
+  box-shadow: 0 0 0 0 transparent;
+  border-radius: 100%;
+}
+
+#toggle:checked ~ .subbed {
+  opacity: 1;
+}
+
+.parent {
+  position: relative;
+  .sub {
+    transition: all 0.5s ease-in-out;
+  }
+}
+
+.text {
+  cursor:pointer;
+  font-size: 17px;
+  color: #F5F5F5;
+  font-family: 'Open Sans', sans-serif;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.5s ease-in-out;
 }

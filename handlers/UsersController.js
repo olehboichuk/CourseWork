@@ -5,8 +5,6 @@ let bodyParser = require('body-parser');
 router.use(bodyParser.urlencoded({extended: false}));
 router.use(bodyParser.json());
 let jwt = require('jsonwebtoken');
-let bcrypt = require('bcryptjs');
-let config = require('../config');
 const sql = require('../queryes/user');
 
 const pool = new Pool({
@@ -16,6 +14,14 @@ const pool = new Pool({
     password: 'Qwerty123_',
     port: 5432,
 });
+
+router.route('/user/profile/:id')
+    .get((req, res) => {
+        pool.query(sql.find_user_with_id, [req.params.id], (err, result) => {
+            if (err) throw err;
+            res.status(200).json(result.rows)
+        });
+    });
 
 router.route('/user/profile')
     .get((req, res) => {
@@ -44,6 +50,14 @@ router.route('/user/profile')
                 res.status(200).json(result.rows)
             }
         });
+    })
+    .delete((req, res) => {
+        let token = req.header('x-access-token');
+        let id = jwt.decode(token).id;
+        pool.query(sql.deactivate_by_user_id, [id], (err, result) => {
+            if (err) throw err;
+            res.status(200).json(result.rows)
+        });
     });
 
 router.route('/user/role')
@@ -55,6 +69,7 @@ router.route('/user/role')
             res.status(200).json(result.rows)
         });
     });
+
 router.route('/user/languages')
     .get((req, res) => {
         let token = req.header('x-access-token');
@@ -64,6 +79,49 @@ router.route('/user/languages')
             res.status(200).json(result.rows)
         });
     });
+
+router.route('/user/languages/:id')
+    .get((req, res) => {
+        pool.query(sql.find_languages_by_user_id, [req.params.id], (err, result) => {
+            if (err) throw err;
+            res.status(200).json(result.rows)
+        });
+    });
+router.route('/user/subscriptions')
+    .get((req, res) => {
+        let token = req.header('x-access-token');
+        let id = jwt.decode(token).id;
+        pool.query(sql.find_subscriptions_by_user_id, [id], (err, result) => {
+            if (err) throw err;
+            res.status(200).json(result.rows)
+        });
+    });
+
+router.route('/user/subscriptions/:id')
+    .get((req, res) => {
+        pool.query(sql.find_subscribers_of_teacher_by_his_id, [req.params.id], (err, result) => {
+            if (err) throw err;
+            res.status(200).json(result.rows)
+        });
+    });
+router.route('/user/:id/subscribe')
+    .get((req, res) => {
+        let token = req.header('x-access-token');
+        let id = jwt.decode(token).id;
+        pool.query(sql.subscribe_to_teacher, [req.params.id, id], (err, result) => {
+            if (err) throw err;
+            res.status(200).json(result.rows)
+        });
+    })
+    .delete((req, res) => {
+        let token = req.header('x-access-token');
+        let id = jwt.decode(token).id;
+        pool.query(sql.unsubscribe_from_teacher, [req.params.id, id], (err, result) => {
+            if (err) throw err;
+            res.status(200).json(result.rows)
+        });
+    });
+
 router.route('/languages')
     .get((req, res) => {
         pool.query(sql.find_all_languages, (err, result) => {

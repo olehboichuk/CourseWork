@@ -23,6 +23,9 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field class="form__input">
+          <input matInput formControlName="login" type="text" placeholder="Login">
+        </mat-form-field>
+        <mat-form-field class="form__input">
           <input matInput placeholder="Email" formControlName="email"
                  [errorStateMatcher]="matcher">
           <mat-error

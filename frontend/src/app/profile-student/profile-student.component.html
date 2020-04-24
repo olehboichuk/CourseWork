@@ -33,12 +33,12 @@
                      placeholder="Email:"/>
             </mat-form-field>
           </div>
-          <button mat-icon-button [matMenuTriggerFor]="editMenu">
+          <button *ngIf="isMyProfile" mat-icon-button [matMenuTriggerFor]="editMenu">
             <mat-icon style="color: white">more_vert</mat-icon>
           </button>
           <mat-menu #editMenu="matMenu" xPosition="before">
             <button *ngIf="edited" mat-menu-item (click)="onEdit()">Edit</button>
-            <button *ngIf="edited" mat-menu-item>Delete</button>
+            <button *ngIf="edited" mat-menu-item (click)="openDialog()">Delete</button>
             <button *ngIf="!edited" mat-menu-item [disabled]="!changeForm.valid" (click)="onSave()">Save</button>
             <button *ngIf="!edited" mat-menu-item (click)="onCancel()">Cancel</button>
           </mat-menu>

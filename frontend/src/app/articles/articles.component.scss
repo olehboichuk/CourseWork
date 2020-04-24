@@ -1,0 +1,70 @@
+.cardList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+.content {
+  margin: 40px 10px 0 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+@media (max-width: 900px) {
+  .content {
+    margin-left: 4px;
+    margin-right: 4px;
+  }
+}
+/* Column Gap */
+.cardList > * {
+  box-sizing: border-box;
+}
+.cardList > *:not(:last-child) {
+  margin-right: 25px;
+}
+/* Item sizing */
+.cardListItem {
+  flex: 0 1 calc(33.3% - 25px);
+  margin-bottom: 1rem;
+
+}
+.more-button {
+  bottom: 10px;
+  right: 10px;
+  position: absolute;
+}
+.delete-button{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: red;
+}
+/* medium size viewport */
+@media screen and (max-width: 959px) {
+  /* Column Gap */
+  .cardList > *:not(:last-child) {
+    margin-right: 25px;
+  }
+  /* Item sizing */
+  .cardListItem {
+    flex: 0 1 calc(50% - 25px);
+  }
+}
+/* small size viewport */
+@media screen and (max-width: 599px) {
+  .cardList {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  .cardList > *:not(:last-child) {
+    margin-right: unset;
+    margin-bottom: 25px;
+
+  }
+}
+.authorName{
+  font-size: small;
+  color: #008CBA;
+  cursor: pointer;
+}
