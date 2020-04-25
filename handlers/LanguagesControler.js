@@ -9,12 +9,16 @@ const sqlLanguages = require('../queryes/language');
 const sqlTopics = require('../queryes/topic');
 const sqlArticles = require('../queryes/article');
 
+// const pool = new Pool({
+//     user: 'postgres',
+//     host: 'localhost',
+//     database: 'coursework',
+//     password: 'Qwerty123_',
+//     port: 5432,
+// });
 const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'coursework',
-    password: 'Qwerty123_',
-    port: 5432,
+    connectionString: 'postgres://dssiijshzfihym:0f4f3ce480de8fdd1bd48e6e9c6190da2294dd9fe8723dd1c574d9e8a9aaf868@ec2-79-125-26-232.eu-west-1.compute.amazonaws.com:5432/d27fhgsoesbl2l',
+    ssl: true,
 });
 
 router.route('/languages')

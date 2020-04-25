@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   private loginForm: FormGroup;
   private error = '';
   private loading = false;
+  private roles:string[];
 
   constructor(
     private loginService: AuthService,
@@ -46,10 +47,13 @@ export class LoginComponent implements OnInit {
             localStorage.setItem("role", data.role);
             this.userService.getUserRole().subscribe(res => {
               console.log(res)
+              for (let i in res){
+                this.roles[i]=res[i].name;
+              }
               this.loginService._logInUser = true;
-              if (res[0]['name'] === "TEACHER") {
+              if (this.roles.includes("TEACHER")) {
                 this.router.navigate(['/teacher-profile']);
-              } else if (res[0]['name'] === "ADMIN") {
+              } else if (this.roles.includes("ADMIN")) {
                 this.router.navigate(['/admin']);
               } else {
                 this.router.navigate(['/student-profile']);
@@ -71,6 +75,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.roles=[];
     this.loginForm = this.formBuilder.group({
       login: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(8)]],

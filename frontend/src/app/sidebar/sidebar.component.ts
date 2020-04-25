@@ -11,7 +11,7 @@ import {UserService} from "../services/user.service";
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent implements OnInit{
+export class SidebarComponent implements OnInit {
   private admin = false;
   private teacher = false;
   private student = false;
@@ -19,6 +19,7 @@ export class SidebarComponent implements OnInit{
   private SIDEBAR_DATA: Sidebar[] = [];
   private notificationCount = 0;
   private isLoading = false;
+  private roles: string[];
 
   constructor(private httpClient: HttpClient, private  router: Router,
               private route: ActivatedRoute,
@@ -26,12 +27,16 @@ export class SidebarComponent implements OnInit{
   }
 
   ngOnInit() {
+    this.roles=[];
     this.isLoading = true;
     this.userService.getUserRole().subscribe(res => {
       this.isLoading = false;
-      if (res[0]['name'] === "TEACHER") {
+      for (let i in res) {
+        this.roles[i] = res[i].name;
+      }
+      if (this.roles.includes("TEACHER")) {
         this.teacher = true;
-      } else if (res[0]['name'] === "ADMIN") {
+      } else if (this.roles.includes("ADMIN")) {
         this.admin = true;
       } else {
         this.student = true;
