@@ -29,4 +29,16 @@ export class ArticleService {
   getArticles() {
     return this.http.get<ArticlesModel[]>(this.articleURL);
   }
+
+  deleteArticleById(id: number) {
+    return this.http.delete(this.articleURL+'/'+id);
+  }
+
+  getArticleById(id: number) {
+    return this.http.get<ArticlesModel>(this.articleURL+'/'+id);
+  }
+
+  editArticle(article: ArticleModel) {
+    return this.http.put(this.articleURL, article);
+  }
 }

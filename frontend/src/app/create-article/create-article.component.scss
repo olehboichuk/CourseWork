@@ -24,7 +24,7 @@ textarea, input{
 form {
   display: flex;
   flex-direction: column;
-  width: 60%;
+  width: 100%;
   margin-left: 5%;
   margin-right: 5%;
   padding-top: 10px;
@@ -77,11 +77,11 @@ form {
 }
 
 .area {
-  margin-bottom: 100px;
+  margin-bottom: 400px;
 }
 
 .form__textarea {
-  height: 100px;
+  height: 400px;
   resize: none;
 
 

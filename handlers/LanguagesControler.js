@@ -38,11 +38,15 @@ router.route('/articles')
         pool.query(sqlArticles.find_all_articles, (err, result) => {
             if (err) throw err;
             let articles = result.rows;
-            articles.forEach(el=>{
-                pool.query(sqlArticles.get_article_topics, [el.id], (err, result) => {
-                    el.titels = result.rows;
-                    if (articles[articles.length - 1] === el)
+            let i = 0;
+            articles.forEach(el => {
+                pool.query(sqlArticles.get_article_topics, [el.id], (err, topic) => {
+                    if (err) return res.status(500).send({message: 'Error on the server.'});
+                    el.topics = topic.rows;
+                    if (articles.length - 1 === i) {
                         res.status(200).json(articles)
+                    }
+                    i++;
                 });
             });
         });
@@ -53,13 +57,56 @@ router.route('/articles')
         let articleCreate = new Date();
         pool.query(sqlArticles.insert_new_article, [id, req.body.title, req.body.content, articleCreate.toLocaleString()], (err, result) => {
             if (err) throw err;
-            let articleId =result.rows[0].id;
+            let articleId = result.rows[0].id;
             req.body.topicIds.forEach(el => {
                 pool.query(sqlArticles.add_topic_to_article, [articleId, el], (err, result) => {
+                    if (err) return res.status(500).send({message: 'Error on the server.'});
                     if (req.body.topicIds[req.body.topicIds.length - 1] === el)
                         res.status(200).json(result.rows)
                 });
             })
+        });
+    })
+    .put((req, res) => {
+        pool.query(sqlArticles.upd_article, [req.body.title, req.body.content, req.body.id], (err, result) => {
+            if (err) throw err;
+            if (req.body.topicIds) {
+                pool.query(sqlArticles.remove_article_topics, [req.body.id], (err, result) => {
+                    if (err) return res.status(500).send({message: 'Error on the server.'});
+                    req.body.topicIds.forEach(el => {
+                        pool.query(sqlArticles.add_topic_to_article, [req.body.id, el], (err, result) => {
+                            if (err) throw err;
+                            if (req.body.topicIds[req.body.topicIds.length - 1] === el)
+                                res.status(200).json(result.rows)
+                        });
+                    });
+                });
+            } else {
+                res.status(200).json(result.rows)
+            }
+        });
+    });
+
+router.route('/articles/:id')
+    .get((req, res) => {
+        pool.query(sqlArticles.find_article_by_id, [req.params.id], (err, result) => {
+            if (err) return res.status(500).send({message: 'Error on the server.'});
+            pool.query(sqlArticles.get_article_topics, [req.params.id], (err, topic) => {
+                if (err) return res.status(500).send({message: 'Error on the server.'});
+                try {
+                    result.rows[0].topics = topic.rows;
+                } catch (e) {
+                    return res.status(500).send({message: 'Can\'t find article with ID = ' + req.params.id});
+                }
+                res.status(200).json(result.rows)
+            });
+
+        });
+    })
+    .delete((req, res) => {
+        pool.query(sqlArticles.remove_article, [req.params.id], (err, result) => {
+            if (err) throw err;
+            res.status(200).json(result.rows)
         });
     });
 

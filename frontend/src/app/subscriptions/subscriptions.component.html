@@ -17,7 +17,7 @@
           </div>
         </mat-card>
       </ng-container>
-      <div *ngIf="users.length<1" class="noSub">
+      <div *ngIf="!loading&&users.length<1" class="noSub">
         <p class="form__headline" style="font-size: 19px; color: #000000;">NO Subscriptions YET</p>
       </div>
     </div>

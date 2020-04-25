@@ -2,11 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserModel} from "../models/user.model";
 import {UserService} from "../services/user.service";
-import {ActivatedRoute, ParamMap} from "@angular/router";
+import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {LanguagesList} from "../models/languagesList";
 import {DialogComponent} from "../dialog/dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import * as jwt_decode from 'jwt-decode';
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-profile-teacher',
@@ -29,7 +30,7 @@ export class ProfileTeacherComponent implements OnInit {
   private subscribeToIdsList: number[] = [];
   private subscribeText: string;
 
-  constructor(public dialog: MatDialog, private formBuilder: FormBuilder, private userService: UserService, public route: ActivatedRoute) {
+  constructor(public dialog: MatDialog, private router: Router, private formBuilder: FormBuilder, private userService: UserService, public route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -66,6 +67,9 @@ export class ProfileTeacherComponent implements OnInit {
                     this.subscribeToIdsList[i] = sub[i].id;
                   }
                   let userID = jwt_decode(localStorage.getItem('token')).id;
+                  if(this.userId==userID){
+                    this.router.navigate(['/teacher-profile']);
+                  }
                   if (this.subscribeToIdsList.includes(userID)) {
                     this.subscribeText = 'UNSUBSCRIBE';
                     this.subscribe = false;

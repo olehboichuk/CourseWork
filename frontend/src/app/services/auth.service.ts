@@ -28,11 +28,8 @@ export class AuthService {
   }
 
   isLoggedIn() {
-    if (!moment(new Date().toUTCString()).isBefore(this.getExpiration()) && localStorage.getItem("token")) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("role");
-      localStorage.removeItem("expires_at");
-      this._logInUser = false;
+    if (!moment(new Date().toUTCString()).isBefore(this.getExpiration()) && localStorage.getItem("token")&&this._logInUser) {
+      this.logoutUser();
     }
     return moment(new Date().toUTCString()).isBefore(this.getExpiration());
   }

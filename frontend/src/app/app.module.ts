@@ -35,6 +35,8 @@ import { SubscriptionsComponent } from './subscriptions/subscriptions.component'
 import { CreateArticleComponent } from './create-article/create-article.component';
 import { ArticlesComponent } from './articles/articles.component';
 import {MatChipsModule} from "@angular/material/chips";
+import { ArticleComponent } from './article/article.component';
+import {MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule} from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [
@@ -52,7 +54,8 @@ import {MatChipsModule} from "@angular/material/chips";
     DialogComponent,
     SubscriptionsComponent,
     CreateArticleComponent,
-    ArticlesComponent
+    ArticlesComponent,
+    ArticleComponent
   ],
     imports: [
         BrowserModule,
@@ -72,12 +75,16 @@ import {MatChipsModule} from "@angular/material/chips";
         MatProgressSpinnerModule,
         RatingModule,
         MatDialogModule,
-        MatChipsModule
+        MatChipsModule,
+      MatSnackBarModule
     ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
     multi: true,
+  },{
+    provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+    useValue: {duration: 2500}
   }],
   bootstrap: [AppComponent],
   entryComponents:[DialogComponent]
